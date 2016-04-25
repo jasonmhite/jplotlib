@@ -1,7 +1,7 @@
 import seaborn as sb
 from matplotlib import rcParams
 
-sb.set_style('whitegrid')
+sb.set_style('white')
 
 rcParams['figure.figsize'] = 8, 6
 rcParams['legend.fancybox'] = True
