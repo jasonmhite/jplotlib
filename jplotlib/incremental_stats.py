@@ -12,7 +12,7 @@ except ImportError:
 # Welford's algorithm, straight from wikipedia
 # https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Welford's_online_algorithm  
 
-__all__ = ["calc_running_stats"]
+__all__ = ["calc_incremental_stats"]
 
 agg_type = nb.types.UniTuple(nb.float64, 3)
 
@@ -41,15 +41,27 @@ def finalize(existingAggregate):
 # Wrapper for the above two functions, just pass it a list of data and you'll
 # get back an array with the first column being incremental mean and the
 # second variance
-calc_running_stats_sig = nb.float64[:, :](nb.float64[:])
+calc_incremental_stats_sig = nb.float64[:, :](nb.float64[:])
 
-@jit(calc_running_stats_sig, nopython=True)
-def calc_running_stats(X):
+# Note, this only works for a vector, have not generalized it to operate 
+# multiple variables
+@jit(calc_incremental_stats_sig, nopython=True)
+def calc_incremental_stats(X):
+    """
+    Calculate the incremental mean and variance of vector X. That is,
+    the first two moments of the first 2 samples, first 3 samples, etc.
+
+    Returns a matrix of dimension (3, len(X) - 1). Row 1 is the incremental
+    mean, row 2 is the variance, row 3 is the *sample* variance.
+    """
+
     agg = (1.0, X[0], 0.0)
-    L = []
+
+    L = np.empty((len(X) - 1, 3), dtype=np.float64)
     
-    for x in X[1:]:
+    for i, x in enumerate(X[1:]):
         agg = update(agg, x)
-        L.append(finalize(agg))
+        L[i] = finalize(agg)
         
-    return np.asarray(L).T
+    # Transpose it so you can unpack the result
+    return L.T
