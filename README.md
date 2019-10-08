@@ -9,6 +9,11 @@ Current dependencies:
 
   * Matplotlib
   * Seaborn
+  * NumPy
+
+Optional:
+  
+  * Numba
 
 To install:
 
@@ -57,6 +62,8 @@ The module doesn't export any functionality, so importing it is all you do.
 
 Very simple, importing this just sets MPL `figure.figsize` to (15, 10). Useful
 on HiDPI displays, which can sometimes make MPL figures look tiny.
+
+Should be imported *after* `set_plot_style`, since both set `figure.figsize`.
 
 ### `plot_types`
 
@@ -132,7 +139,7 @@ of a list of samples incrementally i.e., first 2 samples, then 3 samples and
 so on.
 
 This algorithm is an online one so it far more efficient than the naive
-approach, but it can still be fairly slow in pure Python. If you have Numba installed,
+approach, but it can still be fairly slow in pure Python. If you have Numba installed
 it will be used to generate JIT compiled versions that are much faster, otherwise
 the module will fall back on the pure Python implementation. 
 

@@ -6,5 +6,8 @@ setup(
     author="Jason M. Hite",
     license="BSD",
     packages=["jplotlib"],
-    install_requires=["matplotlib", "seaborn"],
+    install_requires=["matplotlib", "seaborn", "numpy"],
+    extra_requires={
+        "incremental_stats": ["numba"],
+    },
 )
