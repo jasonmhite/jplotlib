@@ -52,4 +52,4 @@ def calc_running_stats(X):
         agg = update(agg, x)
         L.append(finalize(agg))
         
-    return np.asarray(L)[:, :2] 
+    return np.asarray(L).T
