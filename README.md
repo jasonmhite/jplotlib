@@ -116,7 +116,7 @@ Specialized types of plots...
   fig.show()
   ```
 
-  * `spectra`
+* `spectra`
 
   Plot radiation spectra as time series. Includes 3D slices and a crude
   waterfall diagram.
