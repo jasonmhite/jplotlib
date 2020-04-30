@@ -1,3 +1,5 @@
+from math import inf # Alt for older compat: inf = float('inf')
+
 ## Efficient implementation, O(n logn) for a sort and then linear.
 def merge_intervals(L, tol=0, sorted=False):
     """
@@ -29,6 +31,41 @@ def merge_intervals(L, tol=0, sorted=False):
             S.append((a, b))
             
     return S 
+
+def expand_intervals(L, min_len, direction="c", always=False, clip_l=0, clip_r=None):
+    # direction: c, l, or r -> centered, left, right
+    # clip: minimum value to clip to (none to skip)
+    # always: if true, always add min_len, otherwise only expand when b - a < min_len
+
+    if len(L) == 0:
+        return L
+    
+    if clip_l is None:
+        clip_l = -inf
+    if clip_r is None:
+        clip_r = inf
+
+    for i, (a, b) in enumerate(L):
+
+        if (b - a < min_len) or always:
+            if always:
+                dL = min_len
+            else:
+                dL = min_len - (b - a)
+
+            if direction == "c":
+                a_new = max(a - dL / 2, clip_l)
+                b_new = min(b + dL / 2, clip_r)
+            elif direction == "r":
+                a_new = a
+                b_new = min(b + dL, clip_r)
+            elif direction == "l":
+                a_new = max(a - dL, clip_l)
+                b_new = b
+
+            L[i] = (a_new, b_new)
+
+    return L
 
 ## Original implementation, fast enough on average but still not great
 # def merge_intervals(I):
