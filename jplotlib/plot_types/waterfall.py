@@ -8,12 +8,7 @@ from jplotlib.util import time_ticker, mesh_refine
 
 __all__ = ["waterfall", "waterfall_smooth"]
 
-def waterfall2(
-    ax,
-    X,
-    T,
-    data,
-): pass
+## Note: you can reverse the direction with ax.invert_yaxis. 
 
 def center(X):
     return X[:-1] + 0.5 * np.diff(X)
@@ -25,18 +20,19 @@ def waterfall(
     data,
     pcolormesh_kwargs={},
 ):
+
     ax.pcolormesh(
-        *np.meshgrid(X, T[::-1]),
-        data[::-1],
+        *np.meshgrid(X, T),
+        data,
         **pcolormesh_kwargs,
-    )
+    ) 
 
 def waterfall_smooth(
     ax,
     X,
     T,
     data,
-    imshow_args={} # not interpolation, aspect
+    imshow_args={}, # not interpolation, aspect
 ):
     args = imshow_args
 
