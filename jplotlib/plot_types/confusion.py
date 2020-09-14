@@ -16,7 +16,7 @@ def plot_relative_color_confusion_matrix(
 
     cm = metrics.ConfusionMatrixDisplay(
         X_n,
-        display_labels if display_labels is not None else np.arange(X.shape[0], dtype=int),
+        display_labels=display_labels # if display_labels is not None else np.arange(X.shape[0], dtype=int),
     )
     cm.plot(ax=ax, **plt_kwargs)
 
