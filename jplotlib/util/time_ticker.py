@@ -9,7 +9,11 @@ def time_ticker(
     fmt="%d %b %Y %H:%M:%S", # Only used if datetime
 ):
     """
-    ax.(x|y)axis.set_major_formatter(time_ticker(...))
+    Set axis:
+        ax.(x|y)axis.set_major_formatter(time_ticker(...))
+
+    Probably also want to rotate the ticks:
+        ax.tick_params(axis='x', rotation=90)
     """
     if t0 is None:
         fmt_is_datetime = False
