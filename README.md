@@ -131,22 +131,3 @@ Specialized types of plots...
   Note that Matplotlib is a bit buggy with axis labels in time. Especially
   with the waterfall diagram, getting the axes in terms of time does not
   seem to work correctly. 
-
-### `incremental_stats`
-
-An implementation of Welford's algorithm for efficiently computing the mean and variance
-of a list of samples incrementally i.e., first 2 samples, then 3 samples and 
-so on.
-
-This algorithm is an online one so it far more efficient than the naive
-approach, but it can still be fairly slow in pure Python. If you have Numba installed
-it will be used to generate JIT compiled versions that are much faster, otherwise
-the module will fall back on the pure Python implementation. 
-
-```python
-import numpy as np
-from jplotlib.incremental_stats import calc_running_stats
-
-X = np.random.randn(100000)
-mean, var, sample_var = calc_running_stats(X)
-```
